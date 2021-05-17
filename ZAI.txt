@@ -1,0 +1,44 @@
+CREATE TABLE Platnosc(Platnosc_id int primary key, Status varchar(40) CHECK(status IN ('Anulowana','Wprowadzona','Zaksiegowana')), Opis varchar(40));
+CREATE TABLE Stolik_Klient(Stolik_Klient__id int primary key, Ilosc_osob int, Status_zamowienia varchar(40) CHECK(Status_zamowienia IN ('Niezlozone','Zlozone','Zrealizowane','Zakonczone')));
+CREATE TABLE Dania(Danie_id int primary key, Cena int,Kategorie_id int, Opis varchar(40));
+CREATE TABLE Kategorie(Kategorie_id int primary key, Nazwa varchar(40), Opis varchar(40));
+CREATE TABLE Zamowienia(Zamowienie_id int primary key, Danie_id int, Stolik_Klient__id int,Platnosc_id int, Ilosc int, Uwagi varchar(60),Status_zamowienia varchar(40) CHECK(Status_zamowienia IN ('Przyjete','Zrealizowane','Oplacone')), Wartosc int);
+
+ALTER TABLE Zamowienia
+ADD CONSTRAINT Zamowienia_Platnosc
+FOREIGN KEY(Platnosc_id) REFERENCES Platnosc(Platnosc_id);
+
+ALTER TABLE Zamowienia
+ADD CONSTRAINT Zamowienia_Stolik_Klient
+FOREIGN KEY(Stolik_Klient__id) REFERENCES Stolik_Klient(Stolik_Klient__id);
+
+ALTER TABLE Zamowienia
+ADD CONSTRAINT Zamowienia_Dania
+FOREIGN KEY(Danie_id) REFERENCES Dania(Danie_id);
+
+ALTER TABLE Dania
+ADD CONSTRAINT Dania_Kategorie
+FOREIGN KEY(Kategorie_id) REFERENCES Kategorie(Kategorie_id);
+
+Insert into Kategorie(Kategorie_id, Nazwa, Opis) Values(1, 'Przystawki', 'Dania na zimno');
+Insert into Kategorie(Kategorie_id, Nazwa, Opis) Values(2, 'Zupy', 'Dania na cieplo');
+Insert into Kategorie(Kategorie_id, Nazwa, Opis) Values(3, 'Dania Glowne', 'Dania miesne z dodatkami');
+Insert into Kategorie(Kategorie_id, Nazwa, Opis) Values(4, 'Desery', 'Dania na slodko');
+Insert into Kategorie(Kategorie_id, Nazwa, Opis) Values(5, 'Salatki', 'Dania wegetarianskie');
+
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(1, 21, 1,'Tatar');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(2, 25, 1,'Deska serow');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(3, 15, 2,'Ogorkowka');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(4, 12, 2,'Rosol');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(5, 26, 3,'Burger');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(6, 29, 3,'Kaczka');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(7, 13, 4,'Sernik na zimno');
+Insert into Dania(Danie_id, Cena, Kategorie_id, Opis) Values(8, 14, 5,'Salatka Cesar');
+
+Insert Into Stolik_Klient(Stolik_Klient__id, Ilosc_osob, Status_zamowienia) Values(1,5,'Zrealizowane');
+Insert Into Stolik_Klient(Stolik_Klient__id, Ilosc_osob, Status_zamowienia) Values(2,2,'Zlozone');
+
+Insert Into Zamowienia(Zamowienie_id, Danie_id, Stolik_Klient__id, Ilosc, Uwagi, Status_zamowienia, Wartosc) Values(1,4,1,5,'Bez pomidora','Zrealizowane',130);
+Insert Into Zamowienia(Zamowienie_id, Danie_id, Stolik_Klient__id, Ilosc, Uwagi, Status_zamowienia, Wartosc) Values(2,6,2,2,'Z frytkami','Przyjete',58);
+
+Insert Into Platnosc(platnosc_id, status, Opis) Values(1,'Wprowadzona', 'Gotowka');
