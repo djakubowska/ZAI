@@ -16,7 +16,7 @@ class Dania(models.Model):
     Cena = models.IntegerField()
     Kategorie_id = models.IntegerField()
     Opis = models.CharField(max_length=100)
-    Danie_Kategoria = models.ForeignKey(Kategorie, on_delete=models.SET_NULL, null=True)
+    Danie_Kategoria = models.ForeignKey(Kategorie, related_name='dania', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         ordering = ('Danie_id',)
