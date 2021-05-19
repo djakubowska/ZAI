@@ -17,6 +17,7 @@ class Dania(models.Model):
     Kategorie_id = models.IntegerField()
     Opis = models.CharField(max_length=100)
     Danie_Kategoria = models.ForeignKey(Kategorie, related_name='dania', on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey('auth.User', related_name ='dania', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('Danie_id',)

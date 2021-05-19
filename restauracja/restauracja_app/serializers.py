@@ -28,9 +28,10 @@ class KategorieSerializer(serializers.HyperlinkedModelSerializer):
 
 class DaniaSerializer(serializers.HyperlinkedModelSerializer):
     Danie_Kategoria = serializers.SlugRelatedField(queryset=Kategorie.objects.all(), slug_field='Nazwa')
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Dania
-        fields = ['Danie_id', 'url', 'Opis', 'Cena', 'Danie_Kategoria']
+        fields = ['Danie_id', 'url', 'Opis', 'Cena', 'Danie_Kategoria', 'owner']
 
 
 
