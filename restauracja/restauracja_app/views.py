@@ -9,6 +9,7 @@ from rest_framework.reverse import reverse
 from django_filters import FilterSet, Filter
 from rest_framework import permissions
 from .custompermission import IsOwnerOrReadOnly
+
 # Create your views here.
 #
 #@csrf_exempt
@@ -57,6 +58,7 @@ class RestauracjaKategorieList(generics.ListCreateAPIView):
     filterset_fields = ['Nazwa']
     ordering = ['Nazwa']
     search_fields = ['Nazwa']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class RestauracjaKategorieDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Kategorie.objects.all()
