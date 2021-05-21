@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from .models import Kategorie, Dania
-from .serializers import KategorieSerializer, DaniaSerializer
+from .models import Kategorie, Dania, Zamowienia, Platnosc, Stolik_Klient
+from .serializers import KategorieSerializer, DaniaSerializer, ZamowieniaSerializer, PlatnoscSerializer, StolikKlientSerializer
 from django.http import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -94,6 +94,52 @@ class ApiRoot(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return Response({
             'kategorie': reverse(RestauracjaKategorieList.view_name, request=request),
-            'dania': reverse(DaniaList.view_name, request=request)
+            'dania': reverse(DaniaList.view_name, request=request),
+            'zamowienia':reverse(ZamowieniaList.view_name, request=request),
+            'platnosc': reverse(PlatnoscList.view_name, request=request),
+            'stolikKlient': reverse(StolikKlientList.view_name, request=request)
         })
 
+class ZamowieniaList(generics.ListCreateAPIView):
+    queryset = Zamowienia.objects.all()
+    serializer_class = ZamowieniaSerializer
+    view_name = 'zamowienia-list'
+    filterset_fields = ['Zamowienie_id']
+    ordering = ['Zamowienie_id']
+    search_fields = ['Zamowienie_id']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class ZamowieniaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Zamowienia.objects.all()
+    serializer_class = ZamowieniaSerializer
+    view_name = 'zamowienia-detail'
+
+class PlatnoscList(generics.ListCreateAPIView):
+        queryset = Platnosc.objects.all()
+        serializer_class = PlatnoscSerializer
+        view_name = 'platnosc-list'
+        filterset_fields = ['Platnosc_id']
+        ordering = ['Platnosc_id']
+        search_fields = ['Platnosc_id']
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class PlatnoscDetail(generics.RetrieveUpdateDestroyAPIView):
+        queryset = Platnosc.objects.all()
+        serializer_class = PlatnoscSerializer
+        view_name = 'platnosc-detail'
+
+
+class StolikKlientList(generics.ListCreateAPIView):
+    queryset = Stolik_Klient.objects.all()
+    serializer_class = StolikKlientSerializer
+    view_name = 'stolik_klient-list'
+    filterset_fields = ['Stolik_Klient_id']
+    ordering = ['Stolik_Klient_id']
+    search_fields = ['Stolik_Klient_id']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class StolikKlientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Stolik_Klient.objects.all()
+    serializer_class = StolikKlientSerializer
+    view_name = 'stolik_klient-detail'
